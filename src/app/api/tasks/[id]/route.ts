@@ -3,7 +3,7 @@ import connectDB from '@/lib/db';
 import Task from '@/models/Task';
 import { TaskSchema } from '@/lib/validations';
 
-//@ts-ignore
+//@ts-expect-error
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB();
