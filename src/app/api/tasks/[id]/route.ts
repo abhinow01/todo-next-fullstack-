@@ -3,12 +3,11 @@ import connectDB from '@/lib/db';
 import Task from '@/models/Task';
 import { TaskSchema } from '@/lib/validations';
 
-//@ts-expect-error
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> } ) {
   try {
     await connectDB();
 
-    const { id } =  params;
+    const { id } = await  params;
 
     const body = await req.json();
     const validation = TaskSchema.partial().safeParse(body);
@@ -42,11 +41,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectDB();
 
-    const { id } =  params;
+    const { id } =  await params;
 
     const task = await Task.findByIdAndDelete(id);
 
