@@ -3,7 +3,7 @@ import connectDB from '@/lib/db';
 import Task from '@/models/Task';
 import { TaskSchema } from '@/lib/validations';
 
-interface Context {
+type Context ={
   params: { id: string };
 }
 
@@ -11,7 +11,7 @@ export async function PATCH(req: NextRequest, context: Context) {
   try {
     await connectDB();
 
-    const { id } = context.params;
+    const { id } = await context.params;
 
     const body = await req.json();
     const validation = TaskSchema.partial().safeParse(body);
@@ -49,7 +49,7 @@ export async function DELETE(_req: NextRequest, context: Context) {
   try {
     await connectDB();
 
-    const { id } = context.params;
+    const { id } = await context.params;
 
     const task = await Task.findByIdAndDelete(id);
 
