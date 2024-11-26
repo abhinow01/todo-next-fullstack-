@@ -1,26 +1,30 @@
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI!;
-  
-// Ensure MONGODB_URI is defined
+
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-// Set up a cache for the mongoose connection
-let cached = global.mongooseCache;
+// Explicitly cast `global` to the extended type
+const globalWithCache = global as typeof global & {
+  mongooseCache: {
+    conn: mongoose.Mongoose | null;
+    promise: Promise<mongoose.Mongoose> | null;
+  };
+};
 
-if (!cached) {
-  cached = global.mongooseCache = { conn: null, promise: null };
+if (!globalWithCache.mongooseCache) {
+  globalWithCache.mongooseCache = { conn: null, promise: null };
 }
 
 async function connectDB() {
-  // Return existing connection if available
+  const cached = globalWithCache.mongooseCache;
+
   if (cached.conn) {
     return cached.conn;
   }
 
-  // Establish a new connection if no promise exists
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
