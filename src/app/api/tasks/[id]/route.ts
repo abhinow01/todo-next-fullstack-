@@ -7,11 +7,11 @@ type Context ={
   params: { id: string };
 }
 
-export async function PATCH(req: NextRequest, context: Context) {
+export async function PATCH(req: NextRequest, {params} : Context) {
   try {
     await connectDB();
 
-    const { id } = await context.params;
+    const { id } =  params;
 
     const body = await req.json();
     const validation = TaskSchema.partial().safeParse(body);
@@ -49,7 +49,7 @@ export async function DELETE(_req: NextRequest, context: Context) {
   try {
     await connectDB();
 
-    const { id } = await context.params;
+    const { id } =  context.params;
 
     const task = await Task.findByIdAndDelete(id);
 
