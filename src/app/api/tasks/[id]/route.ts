@@ -3,15 +3,15 @@ import connectDB from '@/lib/db';
 import Task from '@/models/Task';
 import { TaskSchema } from '@/lib/validations';
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+interface Context {
+  params: { id: string };
+}
+
+export async function PATCH(req: NextRequest, context: Context) {
   try {
     await connectDB();
 
-    // Directly use params.id without additional awaiting
-    const id = await params.id;
+    const { id } = context.params;
 
     const body = await req.json();
     const validation = TaskSchema.partial().safeParse(body);
@@ -45,15 +45,11 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  _req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_req: NextRequest, context: Context) {
   try {
     await connectDB();
 
-    // Directly use params.id without additional awaiting
-    const id = await params.id;
+    const { id } = context.params;
 
     const task = await Task.findByIdAndDelete(id);
 
