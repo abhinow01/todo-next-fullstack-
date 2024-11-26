@@ -11,7 +11,7 @@ export async function PATCH(
     await connectDB();
 
     // Directly use params.id without additional awaiting
-    const id = params.id;
+    const id = await params.id;
 
     const body = await req.json();
     const validation = TaskSchema.partial().safeParse(body);
@@ -53,7 +53,7 @@ export async function DELETE(
     await connectDB();
 
     // Directly use params.id without additional awaiting
-    const id = params.id;
+    const id = await params.id;
 
     const task = await Task.findByIdAndDelete(id);
 
