@@ -7,7 +7,7 @@ type Context ={
   params: { id: string };
 }
 
-export async function PATCH(req: NextRequest, {params} : Context) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB();
 
@@ -45,11 +45,11 @@ export async function PATCH(req: NextRequest, {params} : Context) {
   }
 }
 
-export async function DELETE(_req: NextRequest, context: Context) {
+export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB();
 
-    const { id } =  context.params;
+    const { id } =  params;
 
     const task = await Task.findByIdAndDelete(id);
 
