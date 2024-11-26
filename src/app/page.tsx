@@ -20,7 +20,7 @@ export default function Home() {
         const data = await response.json();
         setTasks(data);
         setIsLoading(false);
-      } catch (error) {
+      } catch  {
         toast.error('Failed to load tasks');
         setIsLoading(false);
       }
@@ -42,7 +42,7 @@ export default function Home() {
       const addedTask = await response.json();
       setTasks([addedTask, ...tasks]);
       toast.success('Task added successfully');
-    } catch (error) {
+    } catch  {
       toast.error('Failed to add task');
     }
   };
@@ -63,7 +63,7 @@ export default function Home() {
       setTasks(tasks.map(task => 
         task._id === id ? updatedTask : task
       ));
-    } catch (error) {
+    } catch {
       toast.error('Failed to update task');
     }
   };
@@ -79,7 +79,7 @@ export default function Home() {
       
       setTasks(tasks.filter(task => task._id !== id));
       toast.success('Task deleted successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete task');
     }
   };
