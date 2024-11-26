@@ -3,9 +3,6 @@ import connectDB from '@/lib/db';
 import Task from '@/models/Task';
 import { TaskSchema } from '@/lib/validations';
 
-type Context ={
-  params: { id: string };
-}
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
